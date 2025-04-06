@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+
+typedef struct {
+    char data[MAX];
+    int top;
+} Stack;
+
+
+void init(Stack* s) {
+    s->top = -1;
+}
+
+
+int isEmpty(Stack* s) {
+    return s->top == -1;
+}
+
+
+int isFull(Stack* s) {
+    return s->top == MAX - 1;
+}
+
+void push(Stack* s, char c) {
+    if (isFull(s)) {
+        printf("스택 오버플로우!\n");
+        return;
+    }
+    s->data[++(s->top)] = c;
+}
+
+char pop(Stack* s) {
+    if (isEmpty(s)) {
+        printf("스택 언더플로우!\n");
+        return '\0';
+    }
+    return s->data[(s->top)--];
+}
+
+
+int main() {
+    Stack stack;
+    char str[MAX];
+
+    init(&stack);
+
+    printf("문자열을 입력하세요: ");
+    fgets(str, sizeof(str), stdin);
+
+    str[strcspn(str, "\n")] = '\0';
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        push(&stack, str[i]);
+    }
+
+    printf("거꾸로 출력된 문자열: ");
+
+    while (!isEmpty(&stack)) {
+        printf("%c", pop(&stack));
+    }
+    printf("\n");
+
+    return 0;
+}
